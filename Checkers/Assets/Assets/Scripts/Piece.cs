@@ -6,6 +6,11 @@ public class Piece : MonoBehaviour {
 
     public bool color;
 
+	public struct coord
+	{
+		int x, y;
+	}
+
 	// Use this for initialization
 	void Start () {
 		
@@ -16,15 +21,15 @@ public class Piece : MonoBehaviour {
 		
 	}
 
-    public int[][][] getMoves()
+    public coord[] getMoves()
     {
-        int[][][] moves = null;
+        coord[] moves = null;
         return moves;
     }
 
-    public int[][][] getCaptures()
+	public Tuple<coord[]> tuple getCaptures()
     {
-        int[][][] captures = null;
+		Tuple<coord[]> tuple captures = null;
         return captures;
     }
 
