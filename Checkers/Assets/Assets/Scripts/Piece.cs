@@ -26,13 +26,13 @@ public class Piece : MonoBehaviour {
         coord[] moves = null;
         return moves;
     }
-
-	public Tuple<coord[]> tuple getCaptures()
+    /*
+	public Tuple<coord,coord>[] getCaptures()
     {
 		Tuple<coord[]> tuple captures = null;
         return captures;
     }
-
+    */
     public void moveTo(int x, int y)
     {
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Board : MonoBehaviour {
 
-    public GameObject redPiece, whitePiece;
+    public GameObject player1piece, player2piece, player1Pieces, player2Pieces;
     public GameObject[,] board = new GameObject[8, 8];
     public Player[] players = new Player[2];
     int turn;
@@ -22,21 +22,46 @@ public class Board : MonoBehaviour {
 
     public void setUpBoard()
     {
-        for(int i = 1; i <= board.GetLength(0); i++)
+        for (int i = 0; i < board.GetLength(0); i += 2)
         {
-            for(int j = 1; j <= board.GetLength(1); j += 2)
+            for (int j = 0; j < board.GetLength(1); j++)
             {
-                board[i-1, j-1] = (GameObject)Instantiate(redPiece, new Vector3(redPiece.transform.position.x + (j * 64), redPiece.transform.position.y + (i * 64),0), redPiece.transform.rotation);
-                Debug.Log(i + " " + j);
+                float xloc, yloc;
+                if (j % 2 == 0)
+                {
+                    xloc = player1piece.transform.position.x + (i * 64);
+                    yloc = player1piece.transform.position.y - (j * 64);
+                }
+                else
+                {
+                    xloc = player1piece.transform.position.x + (i * 64) + 64;
+                    yloc = player1piece.transform.position.y - (j * 64);
+                }
+                
+                Vector3 newpos = new Vector3(xloc, yloc, 0);
+
+                if (j < 3)
+                {
+                    board[i, j] = (GameObject)Instantiate(player1piece, player1piece.transform.position, player1piece.transform.rotation, player1Pieces.transform);
+                    board[i, j].transform.position = newpos;
+                }
+                else if (j > 4)
+                {
+                    board[i, j] = (GameObject)Instantiate(player2piece, player1piece.transform.position, player1piece.transform.rotation, player2Pieces.transform);
+                    board[i, j].transform.position = newpos;
+                }
             }
         }
+        Destroy(player1piece);
     }
 
+    //swaps regular with king, swaps king w regular
     public void replacePiece()
     {
 
     }
 
+    //
     public void validMoves(int x, int y)
     {
 
