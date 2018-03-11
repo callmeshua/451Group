@@ -10,6 +10,10 @@ public class Piece : MonoBehaviour {
 	{
 		int x, y;
 	}
+    
+    public class CoordPair{
+        coord move,capture;
+    }
 
 	// Use this for initialization
 	void Start () {
@@ -26,13 +30,13 @@ public class Piece : MonoBehaviour {
         coord[] moves = null;
         return moves;
     }
-    /*
-	public Tuple<coord,coord>[] getCaptures()
+
+	public CoordPair[] getCaptures()
     {
-		Tuple<coord[]> tuple captures = null;
+		CoordPair[] captures = null;
         return captures;
     }
-    */
+
     public void moveTo(int x, int y)
     {
 
