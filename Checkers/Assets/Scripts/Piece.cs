@@ -36,21 +36,21 @@ public class Piece : MonoBehaviour {
 		
 	}
 
-    public coord[] getMoves(){
+    virtual public coord[] getMoves(){
         return new coord[]{
             new coord(-1,-1),
             new coord(1,-1)
         };
     }
 
-	public CoordPair[] getCaptures(){
+	virtual public CoordPair[] getCaptures(){
 		return new CoordPair[]{
             new CoordPair(-2,-2,-1,-1),
             new CoordPair(2,-2,1,-1)
         };
     }
 
-    public void moveTo(int x, int y){
+    virtual public void moveTo(int x, int y){
         Vector3 pos=new Vector3(x,y,0);
         pos+=new Vector3(.5f,.5f,0);
         pos/=8;
