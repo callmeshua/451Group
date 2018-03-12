@@ -13,13 +13,9 @@ abstract public class Player : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if(myTurn){
-            takeTurn();
-            myTurn=false;
-        }
 	}
 
-	abstract public void takeTurn();
+	abstract public void takeTurn(int x0,int y0,int x1,int y1);
 
 	abstract public void endTurn();
 }

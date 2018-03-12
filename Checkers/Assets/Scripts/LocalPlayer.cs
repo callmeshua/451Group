@@ -17,10 +17,9 @@ public class LocalPlayer : Player {
 	}
 
 	public void sendAction(){
-
 	}
 
-	override public void takeTurn(){
+	override public void takeTurn(int x0,int y0,int x1,int y1){
 	}
 
 	override public void endTurn(){
