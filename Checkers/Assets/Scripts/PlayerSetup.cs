@@ -62,7 +62,7 @@ public class PlayerSetup : NetworkBehaviour{
 		//but the local instance is what sent the command in the first place
 		//we only want to recieve the command on a remote player
 		if(!isLocalPlayer){
-			//GameObject.FindObjectOfType<Board>().
+			GameObject.FindObjectOfType<Board>().makeMove(moveX,7-moveY,pieceX,7-pieceY);
 		}
 	}
 }
