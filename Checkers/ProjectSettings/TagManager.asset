@@ -7,6 +7,8 @@ TagManager:
   - move
   - P1
   - P2
+  - p2piece
+  - p1piece
   layers:
   - Default
   - TransparentFX

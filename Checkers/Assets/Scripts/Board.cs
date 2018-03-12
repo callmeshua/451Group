@@ -70,48 +70,91 @@ public class Board : MonoBehaviour {
     //params: coordinates of the piece in board space
 	//instantiate buttons in valid move spots
     public void validateMoves(int x, int y)
-    {
-		if(players[turn?1:0].GetComponent<PlayerSetup>().isLocalPlayer){
+	{
+		//if(players[turn?1:0].GetComponent<PlayerSetup>().isLocalPlayer){
 			
-			clearMoves ();
+		clearMoves ();
 
-			Piece piece = board[x, y].GetComponent<Piece>();
-			Piece.coord[] moves = piece.getMoves();
+		Piece piece = board [x, y].GetComponent<Piece> ();
+		Piece.coord[] moves = piece.getMoves ();
+		Piece.CoordPair[] captures = piece.getCaptures ();
 
-			LocalPlayer localPlayer = GameObject.FindObjectOfType<LocalPlayer> ();
+		LocalPlayer localPlayer = GameObject.FindObjectOfType<LocalPlayer> ();
 
-			int movenum = 0;
-			foreach(Piece.coord move in moves){
-				int moveX = x + move.x;
-				int moveY = y + move.y;
+		int moveX, moveY;
+		int jumpX, jumpY;
+		bool canJump = false;
 
-				Debug.Log (moveX + " " + moveY);
+		int movenum = 0;
+		foreach (Piece.coord move in moves) {
+			moveX = x + move.x;
+			moveY = y + move.y;
 
-				if (moveX >= 0 && moveX < 8 && moveY >= 0 && moveY < 8 && board[moveX, moveY] == null) {
+			Debug.Log (moveX + " " + moveY);
+
+			if (moveX >= 0 && moveX < 8 && moveY >= 0 && moveY < 8) {
+				if (board [moveX, moveY] == null) {
 					Vector3 newPos = new Vector3 (((moveX + 0.5f) / 8) - 0.5f, ((7 - moveY + 0.5f) / 8) - 0.5f, piece.transform.position.z);
 					board [moveX, moveY] = (GameObject)Instantiate (possibleMove, Vector3.zero, piece.transform.rotation, transform);
 					board [moveX, moveY].transform.localPosition = newPos;
-					board [moveX, moveY].GetComponentInChildren<Button> ().onClick.AddListener (delegate{makeMove(moveX, moveY,x,y);});
+					board [moveX, moveY].GetComponentInChildren<Button> ().onClick.AddListener (delegate {
+						makeMove (moveX, moveY, x, y);
+					});
 					board [moveX, moveY].transform.name = "Move " + movenum;
 					movenum++;
+				} else if(board [moveX, moveY].transform.tag == "p2piece"){
+					canJump = true;
 				}
 			}
-			printBoard ();
-
-			moveButtons = GameObject.FindGameObjectsWithTag ("move");
 		}
+
+		if (canJump) {
+			foreach (Piece.CoordPair jump in captures) {
+				jumpX = x + jump.move.x;
+				jumpY = y + jump.move.y;
+
+				Debug.Log ("jumps: " + jumpX + "," + jumpY);
+
+				if (jumpX >= 0 && jumpX < 8 && jumpY >= 0 && jumpY < 8) {
+					if (board [jumpX, jumpY] == null) {
+						Vector3 newPos = new Vector3 (((jumpX + 0.5f) / 8) - 0.5f, ((7 - jumpY + 0.5f) / 8) - 0.5f, piece.transform.position.z);
+						board [jumpX, jumpY] = (GameObject)Instantiate (possibleMove, Vector3.zero, piece.transform.rotation, transform);
+						board [jumpX, jumpY].transform.localPosition = newPos;
+						board [jumpX, jumpY].GetComponentInChildren<Button> ().onClick.AddListener (delegate {
+							makeMove (jumpX, jumpY, x, y);
+						});
+						board [jumpX, jumpY].transform.name = "Move " + movenum;
+						movenum++;
+					}
+				}
+			}
+		}
+
+		printBoard ();
+
+		moveButtons = GameObject.FindGameObjectsWithTag ("move");
+		//}
     }
 
 	public void makeMove(int moveX, int moveY, int pieceX, int pieceY)
     {
 		clearMoves ();
 		currentPiece = board [pieceX, pieceY];
-		Debug.Log (moveX + " " + moveY);
+		Debug.Log (moveX + "," + moveY + " from " + pieceX + "," + pieceY);
 		board [moveX, moveY] = board[pieceX, pieceY];
 		board [pieceX, pieceY] = null;
 		currentPiece.transform.localPosition = new Vector3 (((moveX + 0.5f) / 8) - 0.5f, ((7 - moveY + 0.5f) / 8) - 0.5f, currentPiece.transform.position.z);
+		Debug.Log ((moveX - pieceX) + "," + (moveY - pieceY));
+		if (Mathf.Abs(moveX - pieceX) > 1 && Mathf.Abs(moveY - pieceY) > 1) {
+			int jumpX = (pieceX + moveX) / 2;
+			int jumpY = (pieceY + moveY) / 2;
+			Debug.Log (jumpX + " " + jumpY);
+			Destroy (board [jumpX, jumpY]);
+			board [jumpX, jumpY] = null;
+		}
 		printBoard ();
 		turn = !turn;
+
     }
 
 /*
@@ -145,4 +188,8 @@ public class Board : MonoBehaviour {
 			}
 		}
 	}
+
+					/*public bool isMoveValid(Piece.coord move){
+						
+	}*/
 }
