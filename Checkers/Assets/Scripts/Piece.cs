@@ -59,10 +59,29 @@ public class Piece : MonoBehaviour {
     }
 
 	public void onClick(){
-		Vector3 pos = transform.localPosition;
-		pos.x = (0.5f + pos.x) * 8;
-		pos.y = (0.5f - pos.y) * 8;
-//		Debug.Log (pos);
-		board.validateMoves ((int)pos.x, (int)pos.y);
+		board.currentPiece = gameObject;
+		if (transform.parent.tag == "P1") {
+			Vector3 pos = transform.localPosition;
+			pos.x = (0.5f + pos.x) * 8;
+			pos.y = (0.5f - pos.y) * 8;
+			board.validateMoves ((int)pos.x, (int)pos.y);
+		}
+	}
+
+	public bool checkParentTag(GameObject g, string t){
+		Debug.Log (transform.name);
+		Transform trans = g.transform;
+		while (trans.parent != null)
+		{
+			if (trans.parent.tag == t)
+			{
+				Debug.Log (t);
+				return true;
+			}
+			trans = trans.parent.transform;
+			Debug.Log (trans.parent.name);
+
+		}
+		return false;
 	}
 }
