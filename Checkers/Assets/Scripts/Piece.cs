@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Piece : MonoBehaviour {
 
     public bool color;
+	public Button button;
+	public Board board;
 
 	public struct coord
 	{
@@ -17,7 +20,8 @@ public class Piece : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		board = FindObjectOfType<Board> ();
+		button.onClick.AddListener(onClick);
 	}
 	
 	// Update is called once per frame
@@ -41,5 +45,12 @@ public class Piece : MonoBehaviour {
     {
 
     }
+
+	public void onClick(){
+		Vector3 pos = transform.position;
+		pos.x = (0.5f + pos.x) * 8;
+		pos.y = (0.5f - pos.y) * 8;
+		board.validMoves ((int)pos.x, (int)pos.y);
+	}
 
 }
