@@ -15,7 +15,7 @@ abstract public class Player : MonoBehaviour {
 	void Update () {
 	}
 
-	abstract public void takeTurn(int x0,int y0,int x1,int y1);
+	abstract public void takeTurn(int moveX,int moveY,int pieceX,int pieceY);
 
 	abstract public void endTurn();
 }
