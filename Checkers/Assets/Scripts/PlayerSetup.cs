@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 public class PlayerSetup : NetworkBehaviour{
 
+	//singleton that syncs the player count on the server
 	class counter{
 		[SyncVar] public int count=0;
 		private static counter instance=null;
@@ -23,21 +24,21 @@ public class PlayerSetup : NetworkBehaviour{
 		}
 	}
 
+	//player number
 	[SyncVar,HideInInspector] public int pnum;
+
+	//reference to board object
 	Board board;
 
 	// Use this for initialization
 	void Start () {
+		//checks what kind of player to add components
 		if(isLocalPlayer){
 			gameObject.AddComponent<LocalPlayer>();
-		}else{
-			gameObject.AddComponent<NetworkPlayer>();
 		}
-
-		//ClientScene.ConnectLocalServer().RegisterHandler(MsgType.Connect, OnConnected);
 	}
 
-	//public void OnConnected(NetworkMessage netMsg){
+	//Awake is called when the script instance is being loaded.
 	void Awake(){
 		pnum=counter.Instance.count;
 		counter.Instance.count++;
@@ -48,7 +49,6 @@ public class PlayerSetup : NetworkBehaviour{
 		if(!board){
 			board=GameObject.FindObjectOfType<Board>();
 		}
-		//Debug.LogError(pnum+" "+isLocalPlayer);
 		board.players[pnum]=GetComponent<Player>();
 	}
 
@@ -66,7 +66,6 @@ public class PlayerSetup : NetworkBehaviour{
 		//we only want to recieve the command on a remote player
 		if(!isLocalPlayer){
 			GameObject.FindObjectOfType<Board>().makeMove(7-moveX,7-moveY,7-pieceX,7-pieceY);
-			//GameObject.FindObjectOfType<Board>().makeMove(moveX,moveY,pieceX,pieceY);}
 		}
 	}
 }

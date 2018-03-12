@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class Piece : MonoBehaviour {
 
-    public bool color;
+	//the UI button component for player clicking
 	public Button button;
+
+	//the board object
 	public Board board;
 
+	//coordinates in boardspace
 	public struct coord{
 		public int x, y;
         public coord(int x0,int y0){
@@ -17,11 +20,12 @@ public class Piece : MonoBehaviour {
         }
 	}
     
+	//pair of coords for a capture
     public struct CoordPair{
         public coord move,capture;
         public CoordPair(int mx,int my,int cx,int cy){
-            move=new coord(mx,my);
-            capture=new coord(cx,cy);
+            move=new coord(mx,my);		//location after jump
+            capture=new coord(cx,cy);	//coord of captured piece
         }
     }
 
@@ -30,12 +34,8 @@ public class Piece : MonoBehaviour {
 		board = FindObjectOfType<Board> ();
 		button.onClick.AddListener(onClick);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
+	//gets list of possible move coords
     virtual public coord[] getMoves(){
         return new coord[]{
             new coord(-1,-1),
@@ -43,6 +43,7 @@ public class Piece : MonoBehaviour {
         };
     }
 
+	//gets list of pairs of capture coord pairs
 	virtual public CoordPair[] getCaptures(){
 		return new CoordPair[]{
             new CoordPair(-2,-2,-1,-1),
@@ -50,6 +51,7 @@ public class Piece : MonoBehaviour {
         };
     }
 
+	//moves piece to the new position in worldspace
     virtual public void moveTo(int x, int y){
         Vector3 pos=new Vector3(x,y,0);
         pos+=new Vector3(.5f,.5f,0);
@@ -58,6 +60,7 @@ public class Piece : MonoBehaviour {
         transform.localPosition=pos;
     }
 
+	//when piece is clicked, current object is assigned to clicked piece, valid moves are shown
 	public void onClick(){
 		board.currentPiece = gameObject;
 		if (transform.parent.tag == "P1") {
@@ -67,7 +70,11 @@ public class Piece : MonoBehaviour {
 			board.validateMoves ((int)pos.x, (int)pos.y);
 		}
 	}
-
+		
+/*
+* HELPER FUNCTIONS
+*/
+	//checks if a parent of the gameobject has tag
 	public bool checkParentTag(GameObject g, string t){
 		Debug.Log (transform.name);
 		Transform trans = g.transform;
