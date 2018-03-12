@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Board : MonoBehaviour {
 
-    public GameObject player1piece, player2piece, player1Pieces, player2Pieces;
+    public GameObject player1piece, player2piece, player1Pieces, player2Pieces, possibleMove;
     public GameObject[,] board = new GameObject[8, 8];
     public Player[] players = new Player[2];
     int turn;
@@ -62,10 +62,15 @@ public class Board : MonoBehaviour {
 
     //params: coordinates of the piece in board space
 	//instantiate buttons in valid move spots
-    public void validMoves(int x, int y)
+    public void validateMoves(int x, int y)
     {
 		Piece piece = board[x, y].GetComponent<Piece>();
-		Piece.coord[] moves = piece.getMoves ();
+		Piece.coord[] moves = piece.getMoves();
+		foreach(Piece.coord move in moves){
+			if(board[move.x,move.y] != null){
+				board[move.x, move.y] = (GameObject)Instantiate(possibleMove);
+			}
+		}
     }
 
     public void makeMove()
