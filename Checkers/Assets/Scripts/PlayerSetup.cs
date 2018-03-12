@@ -58,6 +58,7 @@ public class PlayerSetup : NetworkBehaviour{
 
 	//recieve moves from server
 	[ClientRpc] void RpcMakeMove(int moveX,int moveY,int pieceX,int pieceY){
+		Debug.LogError (moveX + " " + moveY + " " + pieceX + " " + pieceY);
 		//this will be called on ALL instances
 		//but the local instance is what sent the command in the first place
 		//we only want to recieve the command on a remote player
