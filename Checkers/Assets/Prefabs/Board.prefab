@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 114773216463786846}
   m_Layer: 0
   m_Name: Red Piece
-  m_TagString: Untagged
+  m_TagString: p2piece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -271,6 +271,8 @@ MonoBehaviour:
     type: 2}
   player2Pieces: {fileID: 1223066045815524}
   player1Pieces: {fileID: 1482288126762652}
+  p2king: {fileID: 1932914667363308, guid: 01f86c78cbd7e6b438547bedbf3673c1, type: 2}
+  p1king: {fileID: 1663651314132502, guid: 4bc4e6d2ee4ccd044870ce91c2c4d30c, type: 2}
   possibleMove: {fileID: 1154813378024218, guid: a3e8e3c51035748d3a89be04261f56e4,
     type: 2}
   players:

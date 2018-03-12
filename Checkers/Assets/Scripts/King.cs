@@ -11,7 +11,6 @@ public class King : Piece {
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
 
 	public override coord[] getMoves(){

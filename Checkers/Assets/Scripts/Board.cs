@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Board : MonoBehaviour {
 
-    public GameObject player2Piece, player1Piece, player2Pieces, player1Pieces, possibleMove;
+    public GameObject player2Piece, player1Piece, player2Pieces, player1Pieces, p2king, p1king, possibleMove;
     public GameObject[,] board = new GameObject[8, 8];
     public Player[] players = new Player[2];
     public bool turn;
@@ -63,8 +63,18 @@ public class Board : MonoBehaviour {
     }
 
     //swaps regular with king, swaps king w regular
-    public void replacePiece()
+	public void replacePiece(int x, int y)
     {
+		if (board [x, y].transform.tag == "player2piece") {
+			board [x, y] = (GameObject)Instantiate (p2king, board [x, y].transform.position, board [x, y].transform.rotation, player2Pieces.transform);
+			board [x, y].transform.position = board [x, y].transform.position;
+			board [x, y].transform.name = "Red King";
+		} 
+		else if (board [x, y].transform.tag == "player1piece") {
+			board [x, y] = (GameObject)Instantiate (p1king, board [x, y].transform.position, board [x, y].transform.rotation, player1Pieces.transform);
+			board [x, y].transform.position = board [x, y].transform.position;
+			board [x, y].transform.name = "White King";
+		}
 
     }
 
@@ -100,10 +110,10 @@ public class Board : MonoBehaviour {
 						movenum++;
 					} 
 					if (board [moveX, moveY].transform.tag == "p2piece") {
-						Debug.Log ("jump avail");
+						// ("jump avail");
 						canJump = true;
 					}
-					Debug.Log (board [moveX, moveY].transform.tag);
+					// (board [moveX, moveY].transform.tag);
 				}
 			}
 
@@ -154,6 +164,12 @@ public class Board : MonoBehaviour {
 			board [jumpX, jumpY] = null;
 		}
 		printBoard ();
+		Debug.LogError (board [moveX, moveY].transform.tag);
+		if ((board [moveX, moveY].transform.tag == "player1piece" && moveY == 0) || (board[moveX,moveY].transform.tag == "player2piece" && moveY == 7)) {
+			replacePiece (moveX, moveY);
+			Debug.LogError ("replaced");
+		}
+
 		turn = !turn;
     }
 
