@@ -168,7 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: 0
   button: {fileID: 114584141699213790}
-  board: {fileID: 0}
+  board: {fileID: 114771855832106200, guid: 397e8c4ec6e714bf49389de60958a7fd, type: 2}
 --- !u!114 &114919796478491536
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -12,6 +12,7 @@ public class Board : MonoBehaviour {
     public int w, h;
 	public GameObject[] moveButtons;
 	public GameObject currentPiece;
+	public Text turnText;
 
 	void Awake(){
 	}
@@ -25,6 +26,11 @@ public class Board : MonoBehaviour {
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Escape)){
 			Application.Quit();
+		}
+		if (players [turn ? 1 : 0].GetComponent<PlayerSetup> ().isLocalPlayer) {
+			turnText.text = "Your Turn";
+		} else {
+			turnText.text = "Their Turn";
 		}
 		////Error (turn);
 	}
@@ -65,12 +71,14 @@ public class Board : MonoBehaviour {
     //swaps regular with king, swaps king w regular
 	public void replacePiece(int x, int y)
     {
-		if (board [x, y].transform.tag == "player2piece") {
+		if (board [x, y].transform.tag == "p2piece") {
+			Destroy (board [x, y]);
 			board [x, y] = (GameObject)Instantiate (p2king, board [x, y].transform.position, board [x, y].transform.rotation, player2Pieces.transform);
 			board [x, y].transform.position = board [x, y].transform.position;
 			board [x, y].transform.name = "Red King";
 		} 
-		else if (board [x, y].transform.tag == "player1piece") {
+		else if (board [x, y].transform.tag == "p1piece") {
+			Destroy (board [x, y]);
 			board [x, y] = (GameObject)Instantiate (p1king, board [x, y].transform.position, board [x, y].transform.rotation, player1Pieces.transform);
 			board [x, y].transform.position = board [x, y].transform.position;
 			board [x, y].transform.name = "White King";
@@ -125,7 +133,7 @@ public class Board : MonoBehaviour {
 					// ("jumps: " + jumpX + "," + jumpY);
 
 					if (jumpX >= 0 && jumpX < 8 && jumpY >= 0 && jumpY < 8) {
-						if (board [jumpX, jumpY] == null) {
+						if (board [jumpX, jumpY] == null && board[x + jump.capture.x, y + jump.capture.y].transform.tag == "p2piece") {
 							Vector3 newPos = new Vector3 (((jumpX + 0.5f) / 8) - 0.5f, ((7 - jumpY + 0.5f) / 8) - 0.5f, piece.transform.position.z);
 							board [jumpX, jumpY] = (GameObject)Instantiate (possibleMove, Vector3.zero, piece.transform.rotation, transform);
 							board [jumpX, jumpY].transform.localPosition = newPos;
@@ -165,7 +173,7 @@ public class Board : MonoBehaviour {
 		}
 		printBoard ();
 		Debug.LogError (board [moveX, moveY].transform.tag);
-		if ((board [moveX, moveY].transform.tag == "player1piece" && moveY == 0) || (board[moveX,moveY].transform.tag == "player2piece" && moveY == 7)) {
+		if ((board [moveX, moveY].transform.tag == "p1piece" && moveY == 0) || (board[moveX,moveY].transform.tag == "p2piece" && moveY == 7)) {
 			replacePiece (moveX, moveY);
 			Debug.LogError ("replaced");
 		}

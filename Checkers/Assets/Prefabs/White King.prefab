@@ -195,7 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: 0
   button: {fileID: 114035930892994098}
-  board: {fileID: 0}
+  board: {fileID: 114771855832106200, guid: 397e8c4ec6e714bf49389de60958a7fd, type: 2}
 --- !u!222 &222596204770799298
 CanvasRenderer:
   m_ObjectHideFlags: 1

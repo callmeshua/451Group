@@ -283,6 +283,7 @@ MonoBehaviour:
   h: 0
   moveButtons: []
   currentPiece: {fileID: 0}
+  turnText: {fileID: 0}
 --- !u!114 &114773216463786846
 MonoBehaviour:
   m_ObjectHideFlags: 1
