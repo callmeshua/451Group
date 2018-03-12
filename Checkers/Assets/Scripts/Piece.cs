@@ -36,23 +36,26 @@ public class Piece : MonoBehaviour {
 		
 	}
 
-    public coord[] getMoves()
-    {
+    public coord[] getMoves(){
         return new coord[]{
             new coord(-1,-1),
             new coord(1,-1)
         };
     }
 
-	public CoordPair[] getCaptures()
-    {
-		CoordPair[] captures = null;
-        return captures;
+	public CoordPair[] getCaptures(){
+		return new CoordPair[]{
+            new CoordPair(-2,-2,-1,-1),
+            new CoordPair(2,-2,1,-1)
+        };
     }
 
-    public void moveTo(int x, int y)
-    {
-
+    public void moveTo(int x, int y){
+        Vector3 pos=new Vector3(x,y,0);
+        pos+=new Vector3(.5f,.5f,0);
+        pos/=8;
+        pos+=new Vector3(-.5f,-.5f,0);
+        transform.localPosition=pos;
     }
 
 	public void onClick(){
@@ -62,5 +65,4 @@ public class Piece : MonoBehaviour {
 		Debug.Log (pos);
 		board.validateMoves ((int)pos.x, (int)pos.y);
 	}
-
 }
