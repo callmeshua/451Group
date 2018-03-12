@@ -3,7 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class PlayerSetup : NetworkBehaviour {
+public class PlayerSetup : NetworkBehaviour{
+
+	class counter{
+		[SyncVar] public int count=0;
+		private static counter instance=null;
+
+		public static counter Instance{
+			get{
+				if(instance==null){
+					instance=new counter();
+				}
+				return instance;
+			}
+		}
+
+		private counter(){
+			instance=this;
+		}
+	}
+
+	[SyncVar,HideInInspector] public int pnum;
+	Board board;
 
 	// Use this for initialization
 	void Start () {
@@ -12,11 +33,23 @@ public class PlayerSetup : NetworkBehaviour {
 		}else{
 			gameObject.AddComponent<NetworkPlayer>();
 		}
+
+		//ClientScene.ConnectLocalServer().RegisterHandler(MsgType.Connect, OnConnected);
+	}
+
+	//public void OnConnected(NetworkMessage netMsg){
+	void Awake(){
+		pnum=counter.Instance.count;
+		counter.Instance.count++;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(!board){
+			board=GameObject.FindObjectOfType<Board>();
+		}
+		//Debug.LogError(pnum+" "+isLocalPlayer);
+		board.players[pnum]=GetComponent<Player>();
 	}
 
 	//send moves from local to server
