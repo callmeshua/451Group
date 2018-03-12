@@ -56,9 +56,10 @@ public class Piece : MonoBehaviour {
     }
 
 	public void onClick(){
-		Vector3 pos = transform.position;
+		Vector3 pos = transform.localPosition;
 		pos.x = (0.5f + pos.x) * 8;
 		pos.y = (0.5f - pos.y) * 8;
+		Debug.Log (pos);
 		board.validateMoves ((int)pos.x, (int)pos.y);
 	}
 

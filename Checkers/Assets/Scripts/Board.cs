@@ -67,7 +67,7 @@ public class Board : MonoBehaviour {
 		Piece piece = board[x, y].GetComponent<Piece>();
 		Piece.coord[] moves = piece.getMoves();
 		foreach(Piece.coord move in moves){
-			if(board[move.x,move.y] != null){
+			if(board[x + move.x, y + move.y] != null){
 				board[move.x, move.y] = (GameObject)Instantiate(possibleMove);
 			}
 		}
