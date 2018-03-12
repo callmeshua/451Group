@@ -26,7 +26,7 @@ public class Board : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Escape)){
 			Application.Quit();
 		}
-		Debug.LogError (turn);
+		//Debug.LogError (turn);
 	}
 
     public void setUpBoard()
@@ -97,9 +97,7 @@ public class Board : MonoBehaviour {
 						Vector3 newPos = new Vector3 (((moveX + 0.5f) / 8) - 0.5f, ((7 - moveY + 0.5f) / 8) - 0.5f, piece.transform.position.z);
 						board [moveX, moveY] = (GameObject)Instantiate (possibleMove, Vector3.zero, piece.transform.rotation, transform);
 						board [moveX, moveY].transform.localPosition = newPos;
-						board [moveX, moveY].GetComponentInChildren<Button> ().onClick.AddListener (delegate {
-							makeMove (moveX, moveY, x, y);
-						});
+						board [moveX, moveY].GetComponentInChildren<Button> ().onClick.AddListener (delegate {localPlayer.takeTurn(moveX,moveY,x,y);makeMove (moveX, moveY, x, y);});
 						board [moveX, moveY].transform.name = "Move " + movenum;
 						movenum++;
 					} else if (board [moveX, moveY].transform.tag == "p2piece") {
@@ -120,9 +118,7 @@ public class Board : MonoBehaviour {
 							Vector3 newPos = new Vector3 (((jumpX + 0.5f) / 8) - 0.5f, ((7 - jumpY + 0.5f) / 8) - 0.5f, piece.transform.position.z);
 							board [jumpX, jumpY] = (GameObject)Instantiate (possibleMove, Vector3.zero, piece.transform.rotation, transform);
 							board [jumpX, jumpY].transform.localPosition = newPos;
-							board [jumpX, jumpY].GetComponentInChildren<Button> ().onClick.AddListener (delegate {
-								makeMove (jumpX, jumpY, x, y);
-							});
+							board [jumpX, jumpY].GetComponentInChildren<Button> ().onClick.AddListener (delegate {localPlayer.takeTurn(jumpX,jumpY,x,y);makeMove (jumpX, jumpY, x, y);});
 							board [jumpX, jumpY].transform.name = "Move " + movenum;
 							movenum++;
 						}
@@ -140,10 +136,14 @@ public class Board : MonoBehaviour {
     {
 		clearMoves ();
 		currentPiece = board [pieceX, pieceY];
+
 		Debug.Log (moveX + "," + moveY + " from " + pieceX + "," + pieceY);
+
 		board [moveX, moveY] = board[pieceX, pieceY];
 		board [pieceX, pieceY] = null;
+
 		currentPiece.transform.localPosition = new Vector3 (((moveX + 0.5f) / 8) - 0.5f, ((7 - moveY + 0.5f) / 8) - 0.5f, currentPiece.transform.position.z);
+
 		Debug.Log ((moveX - pieceX) + "," + (moveY - pieceY));
 		if (Mathf.Abs(moveX - pieceX) > 1 && Mathf.Abs(moveY - pieceY) > 1) {
 			int jumpX = (pieceX + moveX) / 2;
@@ -154,7 +154,6 @@ public class Board : MonoBehaviour {
 		}
 		printBoard ();
 		turn = !turn;
-
     }
 
 /*

@@ -54,6 +54,8 @@ public class PlayerSetup : NetworkBehaviour{
 
 	//send moves from local to server
 	[Command] public void CmdMakeMove(int moveX,int moveY,int pieceX,int pieceY){
+		Debug.LogError ("sending Move");
+		RpcMakeMove (moveX, moveY, pieceX, pieceY);
 	}
 
 	//recieve moves from server
@@ -63,7 +65,8 @@ public class PlayerSetup : NetworkBehaviour{
 		//but the local instance is what sent the command in the first place
 		//we only want to recieve the command on a remote player
 		if(!isLocalPlayer){
-			GameObject.FindObjectOfType<Board>().makeMove(moveX,7-moveY,pieceX,7-pieceY);
+			GameObject.FindObjectOfType<Board>().makeMove(7-moveX,7-moveY,7-pieceX,7-pieceY);
+			//GameObject.FindObjectOfType<Board>().makeMove(moveX,moveY,pieceX,pieceY);}
 		}
 	}
 }
