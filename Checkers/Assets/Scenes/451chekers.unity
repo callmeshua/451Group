@@ -288,6 +288,8 @@ MonoBehaviour:
     type: 2}
   player1Pieces: {fileID: 1054937368}
   player2Pieces: {fileID: 807957211}
+  possibleMove: {fileID: 1154813378024218, guid: a3e8e3c51035748d3a89be04261f56e4,
+    type: 2}
   players:
   - {fileID: 0}
   - {fileID: 0}
