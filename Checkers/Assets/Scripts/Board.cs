@@ -22,33 +22,31 @@ public class Board : MonoBehaviour {
 
     public void setUpBoard()
     {
-        for (int i = 0; i < board.GetLength(0); i += 2)
-        {
-            for (int j = 0; j < board.GetLength(1); j++)
-            {
+
+		for (int y = 0; y < board.GetLength(1); y ++)
+		{
+			for (int x = 0; x < board.GetLength(0); x += 2)
+			{
                 float xloc, yloc;
-                if (j % 2 == 0)
+                if (y % 2 == 0)
                 {
-					xloc = player1piece.transform.position.x + (i * .125f) * transform.localScale.x;
-					yloc = player1piece.transform.position.y - (j * .125f) * transform.localScale.x;
+					xloc = player1piece.transform.position.x + (x * .125f) * transform.localScale.x;
+					yloc = player1piece.transform.position.y - (y * .125f) * transform.localScale.x;
                 }
                 else
                 {
-					xloc = player1piece.transform.position.x + (i * .125f + .125f) * transform.localScale.x;
-					yloc = player1piece.transform.position.y - (j * .125f) * transform.localScale.x;
+					xloc = player1piece.transform.position.x + (x * .125f + .125f) * transform.localScale.x;
+					yloc = player1piece.transform.position.y - (y * .125f) * transform.localScale.x;
                 }
                 
                 Vector3 newpos = new Vector3(xloc, yloc, 0);
 
-				if (j < 3) 
-				{
-					board [i, j] = (GameObject)Instantiate (player1piece, player1piece.transform.position, player1piece.transform.rotation, player1Pieces.transform);
-					board [i, j].transform.position = newpos;
-				} 
-				else if (j > 4) 
-				{
-					board [i, j] = (GameObject)Instantiate (player2piece, player1piece.transform.position, player1piece.transform.rotation, player2Pieces.transform);
-					board [i, j].transform.position = newpos;
+				if (y < 3) {
+					board [x, y] = (GameObject)Instantiate (player1piece, player1piece.transform.position, player1piece.transform.rotation, player1Pieces.transform);
+					board [x, y].transform.position = newpos;
+				} else if (y > 4) {
+					board [x, y] = (GameObject)Instantiate (player2piece, player1piece.transform.position, player1piece.transform.rotation, player2Pieces.transform);
+					board [x, y].transform.position = newpos;
 				}
 
             }
@@ -66,7 +64,7 @@ public class Board : MonoBehaviour {
 	//instantiate buttons in valid move spots
     public void validMoves(int x, int y)
     {
-		Piece piece = board [x, y].GetComponent<Piece>();
+		Piece piece = board[x, y].GetComponent<Piece>();
 		Piece.coord[] moves = piece.getMoves ();
     }
 
