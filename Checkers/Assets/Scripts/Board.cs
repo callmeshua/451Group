@@ -26,7 +26,7 @@ public class Board : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Escape)){
 			Application.Quit();
 		}
-		//Debug.LogError (turn);
+		////Error (turn);
 	}
 
     public void setUpBoard()
@@ -81,16 +81,14 @@ public class Board : MonoBehaviour {
 
 			LocalPlayer localPlayer = GameObject.FindObjectOfType<LocalPlayer> ();
 
-			int moveX, moveY;
-			int jumpX, jumpY;
 			bool canJump = false;
 
 			int movenum = 0;
 			foreach (Piece.coord move in moves) {
-				moveX = x + move.x;
-				moveY = y + move.y;
+				int moveX = x + move.x;
+				int moveY = y + move.y;
 
-				Debug.Log (moveX + " " + moveY);
+				// (moveX + " " + moveY);
 
 				if (moveX >= 0 && moveX < 8 && moveY >= 0 && moveY < 8) {
 					if (board [moveX, moveY] == null) {
@@ -100,18 +98,21 @@ public class Board : MonoBehaviour {
 						board [moveX, moveY].GetComponentInChildren<Button> ().onClick.AddListener (delegate {localPlayer.takeTurn(moveX,moveY,x,y);makeMove (moveX, moveY, x, y);});
 						board [moveX, moveY].transform.name = "Move " + movenum;
 						movenum++;
-					} else if (board [moveX, moveY].transform.tag == "p2piece") {
+					} 
+					if (board [moveX, moveY].transform.tag == "p2piece") {
+						Debug.Log ("jump avail");
 						canJump = true;
 					}
+					Debug.Log (board [moveX, moveY].transform.tag);
 				}
 			}
 
 			if (canJump) {
 				foreach (Piece.CoordPair jump in captures) {
-					jumpX = x + jump.move.x;
-					jumpY = y + jump.move.y;
+					int jumpX = x + jump.move.x;
+					int jumpY = y + jump.move.y;
 
-					Debug.Log ("jumps: " + jumpX + "," + jumpY);
+					// ("jumps: " + jumpX + "," + jumpY);
 
 					if (jumpX >= 0 && jumpX < 8 && jumpY >= 0 && jumpY < 8) {
 						if (board [jumpX, jumpY] == null) {
@@ -137,18 +138,18 @@ public class Board : MonoBehaviour {
 		clearMoves ();
 		currentPiece = board [pieceX, pieceY];
 
-		Debug.Log (moveX + "," + moveY + " from " + pieceX + "," + pieceY);
+		// (moveX + "," + moveY + " from " + pieceX + "," + pieceY);
 
 		board [moveX, moveY] = board[pieceX, pieceY];
 		board [pieceX, pieceY] = null;
 
 		currentPiece.transform.localPosition = new Vector3 (((moveX + 0.5f) / 8) - 0.5f, ((7 - moveY + 0.5f) / 8) - 0.5f, currentPiece.transform.position.z);
 
-		Debug.Log ((moveX - pieceX) + "," + (moveY - pieceY));
+		// ((moveX - pieceX) + "," + (moveY - pieceY));
 		if (Mathf.Abs(moveX - pieceX) > 1 && Mathf.Abs(moveY - pieceY) > 1) {
 			int jumpX = (pieceX + moveX) / 2;
 			int jumpY = (pieceY + moveY) / 2;
-			Debug.Log (jumpX + " " + jumpY);
+			// (jumpX + " " + jumpY);
 			Destroy (board [jumpX, jumpY]);
 			board [jumpX, jumpY] = null;
 		}
@@ -173,7 +174,7 @@ public class Board : MonoBehaviour {
 			}
 			line += "\n";
 		}
-		Debug.Log (line);
+		// (line);
 	}
 
 	//clears the move buttons
