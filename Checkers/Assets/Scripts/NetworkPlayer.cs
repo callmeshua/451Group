@@ -18,4 +18,10 @@ public class NetworkPlayer : Player {
     {
 
     }
+
+	override public void takeTurn(){
+	}
+
+	override public void endTurn(){
+	}
 }

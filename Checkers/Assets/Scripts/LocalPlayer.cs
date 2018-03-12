@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LocalPlayer : Player {
-    
-    public Piece selectedPiece;
+	
+	public Piece selectedPiece;
 
 	// Use this for initialization
 	void Start () {
@@ -16,8 +16,13 @@ public class LocalPlayer : Player {
 		
 	}
 
-    public void sendAction()
-    {
+	public void sendAction(){
 
-    }
+	}
+
+	override public void takeTurn(){
+	}
+
+	override public void endTurn(){
+	}
 }

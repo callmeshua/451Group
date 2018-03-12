@@ -9,13 +9,20 @@ public class Piece : MonoBehaviour {
 	public Button button;
 	public Board board;
 
-	public struct coord
-	{
-		int x, y;
+	public struct coord{
+		public int x, y;
+        public coord(int x0,int y0){
+            x=x0;
+            y=y0;
+        }
 	}
     
-    public class CoordPair{
-        coord move,capture;
+    public struct CoordPair{
+        public coord move,capture;
+        public CoordPair(int mx,int my,int cx,int cy){
+            move=new coord(mx,my);
+            capture=new coord(cx,cy);
+        }
     }
 
 	// Use this for initialization
@@ -31,8 +38,10 @@ public class Piece : MonoBehaviour {
 
     public coord[] getMoves()
     {
-        coord[] moves = null;
-        return moves;
+        return new coord[]{
+            new coord(-1,-1),
+            new coord(1,-1)
+        };
     }
 
 	public CoordPair[] getCaptures()
